@@ -1,0 +1,7 @@
+*.txt
+*.html
+/.idea/
+/.settings/
+/classes/
+/target/
+*.war
