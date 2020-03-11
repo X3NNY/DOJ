@@ -1,5 +1,5 @@
 # DOJ
-Dreamer Online Judge，An open, free and shared OJ。
+Dreamer Online Judge，An open, free and shared OnlineJudge System。
 
 **Test site** http://120.79.31.49
 
