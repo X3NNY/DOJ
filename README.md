@@ -1,7 +1,7 @@
 # DOJ
 Dreamer Online Judge，An open, free and shared OJ。
 
-**Test site** http://120.79.31.49
+**Test site** http://116.63.155.152/
 
 ---
 
