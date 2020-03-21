@@ -1,18 +1,3 @@
-/*
-Navicat MySQL Data Transfer
-
-Source Server         : HUAWEI
-Source Server Version : 50729
-Source Host           : 116.63.155.152:3306
-Source Database       : onlinejudge
-
-Target Server Type    : MYSQL
-Target Server Version : 50729
-File Encoding         : 65001
-
-Date: 2020-03-21 21:45:35
-*/
-
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
@@ -24,7 +9,7 @@ CREATE TABLE `about` (
   `text` varchar(20000) DEFAULT NULL,
   `name` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for achievement
@@ -36,7 +21,7 @@ CREATE TABLE `achievement` (
   `desciption` varchar(255) DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`aid`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for achievementlist
@@ -49,7 +34,7 @@ CREATE TABLE `achievementlist` (
   `date` datetime DEFAULT NULL,
   `validtime` int(11) DEFAULT NULL COMMENT '有效期：天，-1则为永久',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Table structure for blog
@@ -66,7 +51,7 @@ CREATE TABLE `blog` (
   `num` int(11) DEFAULT '0',
   `state` int(11) DEFAULT '0',
   PRIMARY KEY (`bid`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Table structure for blogcollection
@@ -78,7 +63,7 @@ CREATE TABLE `blogcollection` (
   `uid` int(11) DEFAULT NULL,
   `date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for blogcomments
@@ -95,7 +80,7 @@ CREATE TABLE `blogcomments` (
   `down_vote` int(11) DEFAULT '0',
   `state` int(11) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Table structure for blogvote
@@ -109,7 +94,7 @@ CREATE TABLE `blogvote` (
   `vote` int(11) DEFAULT NULL,
   `createtime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=92 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for code
@@ -156,7 +141,7 @@ CREATE TABLE `contest` (
   `level` int(11) NOT NULL,
   `type` int(11) DEFAULT NULL,
   PRIMARY KEY (`cid`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for contestnotice
@@ -172,7 +157,7 @@ CREATE TABLE `contestnotice` (
   `qdate` datetime DEFAULT NULL,
   `adate` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for contestproblems
@@ -186,7 +171,7 @@ CREATE TABLE `contestproblems` (
   `ac_cnt` int(11) NOT NULL DEFAULT '0',
   `all_cnt` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=151 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for contestregister
@@ -202,7 +187,7 @@ CREATE TABLE `contestregister` (
   `lastrating` int(11) NOT NULL DEFAULT '0',
   `role` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=83 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for contestsubmitinfo
@@ -219,7 +204,7 @@ CREATE TABLE `contestsubmitinfo` (
   `score` double(8,2) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `uid` (`uid`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Table structure for contestvote
@@ -232,7 +217,7 @@ CREATE TABLE `contestvote` (
   `votetime` datetime DEFAULT NULL,
   `vote` int(2) unsigned zerofill DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for exlang
@@ -258,7 +243,7 @@ CREATE TABLE `goods` (
   `count` int(11) DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`gid`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for goodsorder
@@ -271,7 +256,7 @@ CREATE TABLE `goodsorder` (
   `date` datetime DEFAULT NULL,
   `status` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Table structure for hack
@@ -297,7 +282,7 @@ CREATE TABLE `invitation` (
   `invitecode` varchar(255) NOT NULL,
   `state` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3009 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for judgeuseranswer
@@ -325,7 +310,7 @@ CREATE TABLE `message` (
   `status` int(11) NOT NULL DEFAULT '0',
   `title` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`mid`)
-) ENGINE=InnoDB AUTO_INCREMENT=549 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for paste
@@ -359,7 +344,7 @@ CREATE TABLE `problem` (
   `special` int(11) DEFAULT '0',
   `hint` varchar(2048) DEFAULT NULL,
   PRIMARY KEY (`pid`)
-) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Table structure for problemcollection
@@ -371,7 +356,7 @@ CREATE TABLE `problemcollection` (
   `uid` int(11) NOT NULL,
   `date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for probleminfo
@@ -429,7 +414,7 @@ CREATE TABLE `problemvote` (
   `vote` int(11) DEFAULT NULL,
   `createtime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for submitcollection
@@ -463,7 +448,7 @@ CREATE TABLE `submitlist` (
   `msg` varchar(1024) DEFAULT NULL,
   `size` double DEFAULT NULL,
   PRIMARY KEY (`sid`)
-) ENGINE=InnoDB AUTO_INCREMENT=140 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for tags
@@ -473,7 +458,7 @@ CREATE TABLE `tags` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Table structure for test
@@ -509,7 +494,7 @@ CREATE TABLE `user` (
   `preaid` int(11) NOT NULL DEFAULT '-1',
   `sufaid` int(11) NOT NULL DEFAULT '-1',
   PRIMARY KEY (`uid`)
-) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for wiki
@@ -523,23 +508,4 @@ CREATE TABLE `wiki` (
   `bid` int(11) NOT NULL DEFAULT '-1',
   `preid` int(11) NOT NULL DEFAULT '-1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4;
-
--- ----------------------------
--- Procedure structure for test
--- ----------------------------
-DROP PROCEDURE IF EXISTS `test`;
-DELIMITER ;;
-CREATE DEFINER=`root`@`%` PROCEDURE `test`()
-BEGIN
-DECLARE i int DEFAULT 0;
-set i = 100000;
-start TRANSACTION;
-while i<101000 DO
-insert into invitation(invitecode,state) VALUES(i,0);
-set i = i+1;
-end while;
-COMMIT;
-end
-;;
-DELIMITER ;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
