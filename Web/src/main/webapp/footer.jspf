@@ -1,0 +1,32 @@
+<%@page pageEncoding="UTF-8" %>
+<%@page contentType="text/html; charset=UTF-8" %>
+<br />
+<br />
+<footer class="navbar-bottom">
+    <div class="container-fluid">
+        <hr />
+        <p class="text-center">
+            <a href="#" >Xenny & Pandora</a>
+        </p>
+        <p class="text-center">
+            <a href="https://www.mozilla.org/en-US/MPL/2.0/" target="_blank">Mozilla Public License 2.0</a>
+        </p>
+        <p class="text-center">
+            <a href="http://www.beian.miit.gov.cn">湘ICP备19015980号</a>
+        </p>
+        <front style="float: left">当前版本：<a href="${pageContext.request.contextPath}/blog.jsp?bid=1">0.01</a></front>
+        <front style="float: right">系统时间：<text id="footerTime"></text></front>
+    </div>
+    <script>
+        let time = new Date().getTime();
+        let time2 = new Date();
+        function time_f() {
+            time += 1000;
+            time2.setTime(time);
+            $('#footerTime').text(time2.toLocaleString());
+        }
+        time_f();
+        setInterval("time_f()", 1000);
+    </script>
+</footer>
+<script src="${pageContext.request.contextPath}/static/js/footer.min.js"></script>

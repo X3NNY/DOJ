@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pers.dreamer.dao.ContestMapper">
+  <cache type="pers.dreamer.util.RedisCache"/>
+  <resultMap id="BaseResultMap" type="pers.dreamer.bean.Contest">
+    <id column="cid" jdbcType="INTEGER" property="cid" />
+    <result column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="starttime" jdbcType="TIMESTAMP" property="starttime" />
+    <result column="endstime" jdbcType="TIMESTAMP" property="endstime" />
+    <result column="sealtime" jdbcType="INTEGER" property="sealtime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="up_vote" jdbcType="INTEGER" property="upVote" />
+    <result column="down_vote" jdbcType="INTEGER" property="downVote" />
+    <result column="level" jdbcType="INTEGER" property="level" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    cid, uid, starttime, endstime, sealtime, status, password, title, description, up_vote, 
+    down_vote, level, type
+  </sql>
+  <select id="selectByExample" parameterType="pers.dreamer.bean.ContestExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from contest
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limitSize != null and page != null">
+      limit ${page},${limitSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from contest
+    where cid = #{cid,jdbcType=INTEGER}
+  </select>
+  <select id="findUidByCid" resultType="integer">
+    select uid from contest where cid = #{cid}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from contest
+    where cid = #{cid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="pers.dreamer.bean.ContestExample">
+    delete from contest
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="pers.dreamer.bean.Contest">
+    insert into contest (cid, uid, starttime, 
+      endstime, sealtime, status, 
+      password, title, description, 
+      up_vote, down_vote, level, 
+      type)
+    values (#{cid,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{starttime,jdbcType=TIMESTAMP}, 
+      #{endstime,jdbcType=TIMESTAMP}, #{sealtime,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{password,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{upVote,jdbcType=INTEGER}, #{downVote,jdbcType=INTEGER}, #{level,jdbcType=INTEGER}, 
+      #{type,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="pers.dreamer.bean.Contest">
+    insert into contest
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="cid != null">
+        cid,
+      </if>
+      <if test="uid != null">
+        uid,
+      </if>
+      <if test="starttime != null">
+        starttime,
+      </if>
+      <if test="endstime != null">
+        endstime,
+      </if>
+      <if test="sealtime != null">
+        sealtime,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="upVote != null">
+        up_vote,
+      </if>
+      <if test="downVote != null">
+        down_vote,
+      </if>
+      <if test="level != null">
+        level,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="cid != null">
+        #{cid,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null">
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="starttime != null">
+        #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endstime != null">
+        #{endstime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sealtime != null">
+        #{sealtime,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="upVote != null">
+        #{upVote,jdbcType=INTEGER},
+      </if>
+      <if test="downVote != null">
+        #{downVote,jdbcType=INTEGER},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="pers.dreamer.bean.ContestExample" resultType="java.lang.Long">
+    select count(*) from contest
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update contest
+    <set>
+      <if test="record.cid != null">
+        cid = #{record.cid,jdbcType=INTEGER},
+      </if>
+      <if test="record.uid != null">
+        uid = #{record.uid,jdbcType=INTEGER},
+      </if>
+      <if test="record.starttime != null">
+        starttime = #{record.starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endstime != null">
+        endstime = #{record.endstime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sealtime != null">
+        sealtime = #{record.sealtime,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.password != null">
+        password = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.description != null">
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.upVote != null">
+        up_vote = #{record.upVote,jdbcType=INTEGER},
+      </if>
+      <if test="record.downVote != null">
+        down_vote = #{record.downVote,jdbcType=INTEGER},
+      </if>
+      <if test="record.level != null">
+        level = #{record.level,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update contest
+    set cid = #{record.cid,jdbcType=INTEGER},
+      uid = #{record.uid,jdbcType=INTEGER},
+      starttime = #{record.starttime,jdbcType=TIMESTAMP},
+      endstime = #{record.endstime,jdbcType=TIMESTAMP},
+      sealtime = #{record.sealtime,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=INTEGER},
+      password = #{record.password,jdbcType=VARCHAR},
+      title = #{record.title,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR},
+      up_vote = #{record.upVote,jdbcType=INTEGER},
+      down_vote = #{record.downVote,jdbcType=INTEGER},
+      level = #{record.level,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="pers.dreamer.bean.Contest">
+    update contest
+    <set>
+      <if test="uid != null">
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="starttime != null">
+        starttime = #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endstime != null">
+        endstime = #{endstime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sealtime != null">
+        sealtime = #{sealtime,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="upVote != null">
+        up_vote = #{upVote,jdbcType=INTEGER},
+      </if>
+      <if test="downVote != null">
+        down_vote = #{downVote,jdbcType=INTEGER},
+      </if>
+      <if test="level != null">
+        level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+    </set>
+    where cid = #{cid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pers.dreamer.bean.Contest">
+    update contest
+    set uid = #{uid,jdbcType=INTEGER},
+      starttime = #{starttime,jdbcType=TIMESTAMP},
+      endstime = #{endstime,jdbcType=TIMESTAMP},
+      sealtime = #{sealtime,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      password = #{password,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      up_vote = #{upVote,jdbcType=INTEGER},
+      down_vote = #{downVote,jdbcType=INTEGER},
+      level = #{level,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER}
+    where cid = #{cid,jdbcType=INTEGER}
+  </update>
+  <select id="findContestByNow" resultType="pers.dreamer.bean.Contest">
+     select * from contest where to_days(starttime) = to_days(now()+28801) and `level`=0 order by cid limit 0,1;
+  </select>
+</mapper>

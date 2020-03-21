@@ -1,0 +1,239 @@
+nav li,nav a,nav ul,nav div{
+    color: #ffffff;
+}
+
+body, select, input,text { font-family: verdana,arial,sans-serif;}
+
+.right-block {
+    float:right;
+}
+.panel-default{
+    box-shadow: 0 0 10px #aaaaaa;
+}
+.panel-info{
+    box-shadow: 0 0 10px #aaaaff;
+}
+.panel-danger{
+    box-shadow: 0 0 10px #aa8888;
+}
+.panel-primary{
+    box-shadow: 0 0 10px #8888ff;
+}
+.panel-success{
+    box-shadow: 0 0 10px #88aa88;
+}
+.panel-warning{
+    box-shadow: 0 0 10px #d5c393;
+}
+.nomargin{
+    margin:0;
+}
+html{
+    height:100%;
+}
+body{
+    /*background: url("/static/img/bgp.jpg");*/
+    /*background-size:100% 100%;*/
+    font-size:14px;
+    height:100%;
+}
+
+.container{
+    padding-bottom: 10px;
+}
+
+.foot{
+    padding: 20px 10% 20px 10% ;
+    background-color: #EEEEEE;
+}
+.break{word-break: break-all}
+.table-small{
+    font-size:13px;
+}
+.table-small tbody>tr>td,.font-small thead>tr>td{
+    paddding:4px;
+}
+.user_title_fa{
+    position:relative;
+}
+.user_title{
+    position: absolute;
+    width: 150px;
+    border: solid 2px #f00;
+    border-radius: 14px;
+    left: calc(50% - 10px);
+    top: -70px;
+    transform:rotate(-30deg);
+    -ms-transform:rotate(-30deg); 	/* IE 9 */
+    -moz-transform:rotate(-30deg); 	/* Firefox */
+    -o-transform:rotate(-30deg); 	/* Opera */
+    -webkit-transform: rotate(-30deg);/* Safari 和 Chrome */
+}
+.head-0{
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: solid 1px #ccc;
+    padding:1px;
+}
+.head-1{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+.head-2{
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border:solid 6px rgba(255,255,255,0.3);
+}
+.userIcon{
+    position: relative;
+    top: -35px;
+    left: 50px;
+    margin-left: 50%;
+    /* margin-right: 50%; */
+    background-color: rgba(255,255,255,0.5);
+    /* float: left; */
+    width: 24px;
+    height: 22px;
+    padding: 1px 0 1px;
+    border: solid 2px;
+    border-radius: 50%;
+}
+.padding-1{
+    padding-left: 20px;
+    padding-top:0;
+}
+pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+.sample{
+    padding:0;
+    border-style:none;
+    background-color:transparent;
+}
+
+.form-inline .form-group{
+    margin-right: 3px;
+}
+.container-fluid{
+    width:88%;
+    min-width:1000px;
+    margin: 0 auto;
+}
+table{
+    font-size: 14px;
+}
+
+.adminNAV .nav-pills > li > a{
+    border-radius:0;
+    transition-duration: 0.3s;
+}
+.adminNAV .nav-pills > li :hover{
+    padding-left:30px;
+}
+.btn-toolbar .btn-group .btn{
+    transition-duration: 0.2s;
+}
+pre .sample{
+    background-color: rgba(255,255,255,0);
+    border: 0;
+    padding: 0;
+}
+
+.username_onshore {
+    color: black;
+}
+
+.username_cadet {
+    color: rgb(165,165,165);
+}
+
+.username_ord_seaman {
+    color: rgba(119,255,119,1);
+}
+
+.username_able_bodied {
+    color: rgb(143,255,219);
+}
+
+.username_bosun {
+    color: rgb(83,95,255);
+}
+
+.username_3rd_officer {
+    color: rgba(255,136,255,1);
+}
+
+.username_2nd_officer {
+    color: rgba(255,204,136,1);
+}
+
+.username_chief_officer {
+    color: rgb(255,0,0);
+}
+
+.username_captain {
+    display: block;
+    color: rgb(255,0,0);
+}
+
+.username_captain:first-letter {
+    color: black;
+}
+
+.username_builder {
+    color: yellow;
+}
+
+
+.first_blood {
+    background-color:#6dd66e;
+}
+
+.user_level_0 {
+    color: grey;
+}
+
+.user_level_1 {
+    color: black;
+}
+
+.user_level_2 {
+    color: #0E9A00;
+}
+
+.user_level_3 {
+    color: #0E0EFF;
+}
+
+.user_level_4 {
+    color: red;
+}
+
+.user_level_5 {
+    font-weight: bold;
+    color: #f7ff00;
+}
+.unread-msg {
+    display: inline-block;
+    min-width: 10px;
+    padding: 3px 7px;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    background-color: #3e3077;
+    border-radius: 10px;
+}
+.navbar-default .navbar-nav > li > a {
+    color: #ffffff;
+}
+.navbar-default .navbar-brand {
+    color: #ffffff;
+}

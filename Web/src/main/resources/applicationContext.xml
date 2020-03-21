@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:cache="http://www.springframework.org/schema/cache"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+       http://www.springframework.org/schema/task
+        http://www.springframework.org/schema/task/spring-task-3.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+        http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit.xsd">
+	<context:component-scan base-package="pers.dreamer.*">
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+			<context:exclude-filter type="annotation"
+			expression="org.springframework.web.bind.annotation.ControllerAdvice" />
+	</context:component-scan>
+	<!-- Spring的配置文件，这里主要配置和业务逻辑有关的 -->
+	<!--=================== 数据源，事务控制，xxx ================-->
+	<context:property-placeholder location="classpath:dbconfig.properties,classpath:mail.properties,classpath:redis.properties" ignore-unresolvable="true"/>
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="jdbcUrl" value="${jdbc.url}"></property>
+		<property name="user" value="${jdbc.username}"></property>
+		<property name="password" value="${jdbc.password}"></property>
+        <property name="driverClass" value="${jdbc.driverClass}"/>
+	</bean>
+    <!--datetimeformat-->
+    <bean id="dateformat" class="java.text.SimpleDateFormat">
+        <constructor-arg name="pattern" value="yyyy-MM-dd HH:mm:ss"/>
+    </bean>
+    <!--Gson-->
+    <bean id="gson" class="com.google.gson.Gson"/>
+	<!--================== 配置和MyBatis的整合=============== -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- 指定mybatis全局配置文件的位置 -->
+		<property name="configLocation" value="classpath:mybatis-config.xml"></property>
+        <!--设置mybaits对缓存的支持-->
+        <property name="configurationProperties">
+            <props>
+                <!-- 全局映射器启用缓存 *主要将此属性设置完成即可-->
+                <prop key="cacheEnabled">true</prop>
+                <!-- 查询时，关闭关联对象即时加载以提高性能 -->
+                <prop key="lazyLoadingEnabled">false</prop>
+                <!-- 设置关联对象加载的形态，此处为按需加载字段(加载字段由SQL指 定)，不会加载关联表的所有字段，以提高性能 -->
+                <prop key="aggressiveLazyLoading">true</prop>
+            </props>
+        </property>
+		<property name="dataSource" ref="dataSource"></property>
+		<!-- 指定mybatis，mapper文件的位置 -->
+		<property name="mapperLocations" value="classpath:mapper/*.xml"></property>
+	</bean>
+
+	<!-- 配置扫描器，将mybatis接口的实现加入到ioc容器中 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<!--扫描所有dao接口的实现，加入到ioc容器中 -->
+		<property name="basePackage" value="pers.dreamer.dao"></property>
+	</bean>
+	
+	<!-- 配置一个可以执行批量的sqlSession	-->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"></constructor-arg>
+		<constructor-arg name="executorType" value="SIMPLE"></constructor-arg>
+	</bean>
+	<aop:aspectj-autoproxy/>
+    <bean id="transactionManager" class=" org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+
+    <!--配置基于注解的声明式事务 默认使用注解来管理事务行为  -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+    <task:annotation-driven />
+    <!-- 启用缓存注解功能，这个是必须的，否则注解不会生效，另外，该注解一定要声明在spring主配置文件中才会生效 -->
+    <!-- redis 相关配置-->
+    <!--<cache:annotation-driven/>-->
+    <!-- redis连接池配置-->
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig" >
+        <!--最大空闲数-->
+        <property name="maxIdle" value="${redis.maxIdle}" />
+        <!--连接池的最大数据库连接数  -->
+        <property name="maxTotal" value="${redis.maxTotal}" />
+        <!--最大建立连接等待时间-->
+        <property name="maxWaitMillis" value="${redis.maxWaitMillis}" />
+        <!--逐出连接的最小空闲时间 默认1800000毫秒(30分钟)-->
+        <property name="minEvictableIdleTimeMillis" value="${redis.minEvictableIdleTimeMillis}" />
+        <!--每次逐出检查时 逐出的最大数目 如果为负数就是 : 1/abs(n), 默认3-->
+        <property name="numTestsPerEvictionRun" value="${redis.numTestsPerEvictionRun}" />
+        <!--逐出扫描的时间间隔(毫秒) 如果为负数,则不运行逐出线程, 默认-1-->
+        <property name="timeBetweenEvictionRunsMillis" value="${redis.timeBetweenEvictionRunsMillis}" />
+        <!--是否在从池中取出连接前进行检验,如果检验失败,则从池中去除连接并尝试取出另一个-->
+        <property name="testOnBorrow" value="true" />
+        <!--在空闲时检查有效性, 默认false  -->
+        <property name="testWhileIdle" value="true" />
+    </bean>
+    <!-- 3. redis连接工厂 -->
+    <bean id="connectionFactory2" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+          destroy-method="destroy">
+        <property name="poolConfig" ref="jedisPoolConfig"/>
+        <!--IP地址 -->
+        <property name="hostName" value="${redis.hostName}"/>
+        <!--端口号  -->
+        <property name="port" value="${redis.port}"/>
+        <!--如果Redis设置有密码  -->
+        <property name="password" value="${redis.password}"/>
+        <!--客户端超时时间单位是毫秒  -->
+        <property name="timeout" value="${redis.timeout}"/>
+    </bean>
+    <bean id="connectionFactory3" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+          destroy-method="destroy">
+        <property name="poolConfig" ref="jedisPoolConfig2"/>
+        <!--IP地址 -->
+        <property name="hostName" value="${redis.hostName}"/>
+        <!--端口号  -->
+        <property name="port" value="${redis.port}"/>
+        <!--如果Redis设置有密码  -->
+        <property name="password" value="${redis.password}"/>
+        <!--客户端超时时间单位是毫秒  -->
+        <property name="timeout" value="${redis.timeout}"/>
+    </bean>
+    <!-- 4. redis操作模板,使用该对象可以操作redis  -->
+    <bean id="redisTemp" class="org.springframework.data.redis.core.RedisTemplate">
+        <property name="connectionFactory" ref="connectionFactory2"/>
+        <!--如果不配置Serializer，那么存储的时候缺省使用String，如果用User类型存储，那么会提示错误User can't cast to String！！  -->
+        <property name="keySerializer">
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+        </property>
+        <property name="valueSerializer">
+            <bean class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer"/>
+        </property>
+        <property name="hashKeySerializer">
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+        </property>
+        <property name="hashValueSerializer">
+            <bean class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer"/>
+        </property>
+        <!--开启事务  -->
+        <property name="enableTransactionSupport" value="true"/>
+    </bean>
+    <!--用于切换redis数据库-->
+    <bean id="jedisPoolConfig2" class="redis.clients.jedis.JedisPoolConfig" >
+        <!--最大空闲数-->
+        <property name="maxIdle" value="${redis.maxIdle}" />
+        <!--连接池的最大数据库连接数  -->
+        <property name="maxTotal" value="${redis.maxTotal}" />
+        <!--最大建立连接等待时间-->
+        <property name="maxWaitMillis" value="${redis.maxWaitMillis}" />
+        <!--逐出连接的最小空闲时间 默认1800000毫秒(30分钟)-->
+        <property name="minEvictableIdleTimeMillis" value="${redis.minEvictableIdleTimeMillis}" />
+        <!--每次逐出检查时 逐出的最大数目 如果为负数就是 : 1/abs(n), 默认3-->
+        <property name="numTestsPerEvictionRun" value="${redis.numTestsPerEvictionRun}" />
+        <!--逐出扫描的时间间隔(毫秒) 如果为负数,则不运行逐出线程, 默认-1-->
+        <property name="timeBetweenEvictionRunsMillis" value="${redis.timeBetweenEvictionRunsMillis}" />
+        <!--是否在从池中取出连接前进行检验,如果检验失败,则从池中去除连接并尝试取出另一个-->
+        <property name="testOnBorrow" value="true" />
+        <!--在空闲时检查有效性, 默认false  -->
+        <property name="testWhileIdle" value="true" />
+    </bean >
+    <bean id="redisTmp" class="org.springframework.data.redis.core.RedisTemplate">
+        <property name="connectionFactory" ref="connectionFactory3"/>
+        <!--如果不配置Serializer，那么存储的时候缺省使用String，如果用User类型存储，那么会提示错误User can't cast to String！！  -->
+        <property name="keySerializer">
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+        </property>
+        <property name="valueSerializer">
+            <bean class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer"/>
+        </property>
+        <property name="hashKeySerializer">
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+        </property>
+        <property name="hashValueSerializer">
+            <bean class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer"/>
+        </property>
+        <!--开启事务  -->
+        <property name="enableTransactionSupport" value="true"/>
+    </bean>
+
+    <!-- 5.使用中间类解决RedisCache.RedisTemplate的静态注入，从而使MyBatis实现第三方缓存 -->
+    <bean id="redisCacheTransfer" class="pers.dreamer.util.RedisCacheTransfer">
+    </bean>
+
+    <!--redis连接工厂 -->
+    <bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory" destroy-method="destroy">
+        <property name="poolConfig" ref="jedisPoolConfig"></property>
+        <!--IP地址 -->
+        <property name="hostName" value="${redis.hostName}"></property>
+        <!--端口号  -->
+        <property name="port" value="${redis.port}"></property>
+        <!--如果Redis设置有密码,没有的话就注释掉下面的配置  -->
+        <property name="password" value="${redis.password}" />
+        <!--客户端超时时间单位是毫秒  -->
+        <property name="timeout" value="${redis.timeout}"></property>
+    </bean>
+
+    <!--redis操作模版,使用该对象可以操作redis  -->
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate" >
+        <property name="connectionFactory" ref="jedisConnectionFactory" />
+        <!--如果不配置Serializer，那么存储的时候缺省使用String，如果用User类型存储，那么会提示错误User can't cast to String！！  -->
+        <property name="keySerializer" >
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+        </property>
+        <property name="valueSerializer" >
+            <bean class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer" />
+        </property>
+        <property name="hashKeySerializer">
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+        </property>
+        <property name="hashValueSerializer">
+            <bean class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer"/>
+        </property>
+        <!--开启事务  -->
+        <property name="enableTransactionSupport" value="true"></property>
+    </bean >
+
+    <!--email板块-->
+    <bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="${mail.smtpHost}" />
+        <property name="port" value="${mail.port}" />
+        <property name="username" value="${mail.username}" />
+        <property name="password" value="${mail.password}" />
+        <property name="defaultEncoding" value="${mail.charset}"></property>
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.transport.protocol">smtp</prop>
+                <prop key="mail.smtp.host">smtp.exmail.qq.com</prop>
+                <prop key="mail.smtp.port">465</prop>
+                <prop key="mail.smtp.auth">${mail.smtp.auth}</prop>
+                <prop key="mail.maxAttachSize">${mail.maxAttachSize}</prop>
+                <prop key="mail.smtp.socketFactory.fallback">false</prop>
+                <prop key="mail.smtp.socketFactory.port">465</prop>
+                <prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!--RabbitMQ板块-->
+    <import resource="spring-rabbitmq.xml"/>
+
+    <!--jta分布式事务框架-->
+
+</beans>

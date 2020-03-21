@@ -1,0 +1,15 @@
+table tbody tr td.rank_star {
+    background: #2b669a;
+}
+table tbody tr td.rank_skipped {
+    background: red;
+}
+table tbody tr td.rank_gold {
+    background: gold;
+}
+table tbody tr td.rank_silver {
+    background: silver;
+}
+table tbody tr td.rank_bronze {
+    background: #b56f00;
+}

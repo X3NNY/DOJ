@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pers.dreamer.dao.ContestproblemsMapper">
+  <cache type="pers.dreamer.util.RedisCache"/>
+  <resultMap id="BaseResultMap" type="pers.dreamer.bean.Contestproblems">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="cid" jdbcType="INTEGER" property="cid" />
+    <result column="pid" jdbcType="INTEGER" property="pid" />
+    <result column="num" jdbcType="INTEGER" property="num" />
+    <result column="ac_cnt" jdbcType="INTEGER" property="acCnt" />
+    <result column="all_cnt" jdbcType="INTEGER" property="allCnt" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, cid, pid, num, ac_cnt, all_cnt
+  </sql>
+  <select id="selectByExample" parameterType="pers.dreamer.bean.ContestproblemsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from contestproblems
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from contestproblems
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from contestproblems
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="pers.dreamer.bean.ContestproblemsExample">
+    delete from contestproblems
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="pers.dreamer.bean.Contestproblems">
+    insert into contestproblems (id, cid, pid, 
+      num, ac_cnt, all_cnt)
+    values (#{id,jdbcType=INTEGER}, #{cid,jdbcType=INTEGER}, #{pid,jdbcType=INTEGER}, 
+      #{num,jdbcType=INTEGER}, #{acCnt,jdbcType=INTEGER}, #{allCnt,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="pers.dreamer.bean.Contestproblems">
+    insert into contestproblems
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="cid != null">
+        cid,
+      </if>
+      <if test="pid != null">
+        pid,
+      </if>
+      <if test="num != null">
+        num,
+      </if>
+      <if test="acCnt != null">
+        ac_cnt,
+      </if>
+      <if test="allCnt != null">
+        all_cnt,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="cid != null">
+        #{cid,jdbcType=INTEGER},
+      </if>
+      <if test="pid != null">
+        #{pid,jdbcType=INTEGER},
+      </if>
+      <if test="num != null">
+        #{num,jdbcType=INTEGER},
+      </if>
+      <if test="acCnt != null">
+        #{acCnt,jdbcType=INTEGER},
+      </if>
+      <if test="allCnt != null">
+        #{allCnt,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="pers.dreamer.bean.ContestproblemsExample" resultType="java.lang.Long">
+    select count(*) from contestproblems
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update contestproblems
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.cid != null">
+        cid = #{record.cid,jdbcType=INTEGER},
+      </if>
+      <if test="record.pid != null">
+        pid = #{record.pid,jdbcType=INTEGER},
+      </if>
+      <if test="record.num != null">
+        num = #{record.num,jdbcType=INTEGER},
+      </if>
+      <if test="record.acCnt != null">
+        ac_cnt = #{record.acCnt,jdbcType=INTEGER},
+      </if>
+      <if test="record.allCnt != null">
+        all_cnt = #{record.allCnt,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update contestproblems
+    set id = #{record.id,jdbcType=INTEGER},
+      cid = #{record.cid,jdbcType=INTEGER},
+      pid = #{record.pid,jdbcType=INTEGER},
+      num = #{record.num,jdbcType=INTEGER},
+      ac_cnt = #{record.acCnt,jdbcType=INTEGER},
+      all_cnt = #{record.allCnt,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="pers.dreamer.bean.Contestproblems">
+    update contestproblems
+    <set>
+      <if test="cid != null">
+        cid = #{cid,jdbcType=INTEGER},
+      </if>
+      <if test="pid != null">
+        pid = #{pid,jdbcType=INTEGER},
+      </if>
+      <if test="num != null">
+        num = #{num,jdbcType=INTEGER},
+      </if>
+      <if test="acCnt != null">
+        ac_cnt = #{acCnt,jdbcType=INTEGER},
+      </if>
+      <if test="allCnt != null">
+        all_cnt = #{allCnt,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pers.dreamer.bean.Contestproblems">
+    update contestproblems
+    set cid = #{cid,jdbcType=INTEGER},
+      pid = #{pid,jdbcType=INTEGER},
+      num = #{num,jdbcType=INTEGER},
+      ac_cnt = #{acCnt,jdbcType=INTEGER},
+      all_cnt = #{allCnt,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

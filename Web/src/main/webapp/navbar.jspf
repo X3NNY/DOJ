@@ -1,0 +1,269 @@
+<%@page import="pers.dreamer.bean.User" %>
+<%@page pageEncoding="UTF-8" %>
+<%@page contentType="text/html; charset=UTF-8" %>
+<%
+    User user = (User) session.getAttribute("user");
+%>
+<nav class="navbar navbar-default navbar-fixed-top" style="background: url('/static/img/nav-bgp.jpg');">
+    <div class="container-fluid">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+        <a class="navbar-brand" href="#"><b>DOJ</b></a>
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+            <li><a href="${pageContext.request.contextPath}/"><span class="glyphicon glyphicon-home"></span>&nbsp;主页</a></li>
+            <li><a href="${pageContext.request.contextPath}/problems.jsp"><span class="glyphicon glyphicon-tasks"></span>&nbsp;题库</a></li>
+            <li class="dropdown">
+                <a href="${pageContext.request.contextPath}/contests.jsp" class="dropdown-toggle"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;比赛<strong class="caret"></strong></a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="customcontests.jsp"><span class="glyphicon glyphicon-tower" style="color: rgb(53, 41, 255);">&nbsp;自定义</span></a>
+                    </li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="${pageContext.request.contextPath}/status.jsp" class="dropdown-toggle"><span class="glyphicon glyphicon-flag"></span>&nbsp;评测<strong class="caret"></strong></a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="hacks.jsp"><span class="glyphicon glyphicon-exclamation-sign" style="color: rgb(0, 0, 0);">&nbsp;HACK</span></a>
+                    </li>
+                </ul>
+            </li>
+            <li><a href="${pageContext.request.contextPath}/rank.jsp"><span class="glyphicon glyphicon-stats"></span>&nbsp;排名</a></li>
+            <li><a href="${pageContext.request.contextPath}/blogs.jsp"><span class="glyphicon glyphicon-bookmark"></span>&nbsp;博客</a></li>
+            <li><a href="${pageContext.request.contextPath}/wiki.jsp"><span class="glyphicon glyphicon-book"></span>&nbsp;Wiki</a></li>
+            <li><a href="${pageContext.request.contextPath}/mall.jsp"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Mall</a></li>
+            <li><a href="${pageContext.request.contextPath}/about/index.jsp"><span class="glyphicon glyphicon-info-sign"></span>&nbsp;关于</a></li>
+            <li><a href="${pageContext.request.contextPath}/Beta.jsp"><span class="glyphicon glyphicon-flash"></span>&nbsp;Beta</a></li>
+            <%
+                if (user != null && user.getRole() > 1) {
+            %>
+            <li><a href="${pageContext.request.contextPath}/admin/admin.jsp"><span class="glyphicon glyphicon-cog"></span>&nbsp;管理</a></li>
+            <%
+                }
+            %>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <% if (user != null) {%>
+            <li class="dropdown">
+                <div class="dropdown-toggle">
+                    <img style="border-radius:50%;margin-top: 5px;" width="40" height="40" src="<%=user.getImage()%>" onerror="this.src='/media/user/default.jpg'" />
+                    <a style="vertical-align: center" href="${pageContext.request.contextPath}/userinfo.jsp"></a>
+                </div>
+                <ul class="dropdown-menu">
+                    <li>
+                       <a href="${pageContext.request.contextPath}/usermessage.jsp"><span class="glyphicon glyphicon-bell"></span>&nbsp;消息</a>
+                    </li>
+                    <li>
+                        <a href="${pageContext.request.contextPath}/useredit.jsp"><span class="glyphicon glyphicon-edit"></span>&nbsp;修改资料</a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="logout()"><span class="glyphicon glyphicon-log-out"></span>&nbsp;注销</a>
+                    </li>
+                </ul>
+            </li>
+            <script>
+                $("ul.navbar-right li.dropdown a:first").html(getStyleName("<%=user.getUsername()%>"+"|"+"<%=user.getRating()%>"))
+            </script>
+            <%} else {%>
+            <li><a href="${pageContext.request.contextPath}/userlogin.jsp#d"><span class="glyphicon glyphicon-log-in"></span>&nbsp;登陆</a></li>
+            <li><a href="${pageContext.request.contextPath}/userregister.jsp"><span class="glyphicon glyphicon-registration-mark"></span>&nbsp;注册</a></li>
+            <%}%>
+        </ul>
+        <script>
+            $(".dropdown").hover(function () {
+                $(this).addClass("open")
+            }, function () {
+                $(this).attr("class","dropdown")
+            })
+
+            $.getJSON("/api/user/cur/unread", function (res) {
+                if (res.state == 0) {
+                    if (res.num > 0) {
+                        $("ul.navbar-right li.dropdown a:first").append(HTML.textC("unread-msg",res.num))
+                        $("ul.navbar-right li.dropdown ul.dropdown-menu li:first a:first").append(HTML.textC("unread-msg",res.num))
+                    }
+                }
+                $("ul.navbar-right li.dropdown a:first").append("<strong class=\"caret\"></strong>")
+            })
+
+            $(function(){
+                const $pupil = $('.pupil')
+                const $switchWrapper = $('.switch-wrapper')
+                if (!checkCookie("dojShowNav")) {
+                    setCookie("dojShowNav",'true',7)
+                }
+                if (getCookie('dojShowNav') === 'false') {
+                    $("nav").hide()
+                    $("footer").hide()
+                }
+                const swing = () => {
+                    $switchWrapper.addClass('swing')
+
+                    setTimeout(() => {
+                        $switchWrapper.removeClass('swing')
+                    }, 1000)
+                }
+
+                $('.switch').on('click', () => {
+                    if (getCookie('dojShowNav') === 'false') {
+                        $pupil.removeClass('center')
+                        $("nav").show()
+                        $("footer").show()
+                        setCookie('dojShowNav','true',7)
+                    } else {
+                        $('.lightsOff').find('.eye').css('transform', 'rotate(0deg)')
+                        $pupil.addClass('center')
+                        $("nav").hide()
+                        $("footer").hide()
+                        setCookie('dojShowNav','false',7)
+                    }
+
+                    swing()
+                })
+
+                $('.string').on('mouseenter', swing)
+            })
+        </script>
+    </div>
+    </div>
+    <a href="https://github.com/X3NNY/DOJ" target="_blank">
+    <img style="position: absolute; top: 0; left: 0; border: 0" width="120" height="120" src="${pageContext.request.contextPath}/static/img/forkme.png" alt="Fork me on GitHub">
+</a>
+</nav>
+<div class="switch-wrapper">
+    <div class="string"></div>
+    <div class="switch">
+        <div class="knot"></div>
+        <div class="tassel"></div>
+        <div class="gap"></div>
+    </div>
+</div>
+
+<style>
+    body.lightsOn .switch-wrapper {
+        top: -20px;
+    }
+    body.lightsOn .switch-wrapper .string {
+        background: #ff6347;
+    }
+    body.lightsOn .switch-wrapper .knot,
+    body.lightsOn .switch-wrapper .tassel {
+        background: #ffc32d;
+    }
+    body.lightsOn .switch-wrapper .gap {
+        background: #efeddf;
+    }
+
+     .animal-wrapper .eye-wrapper .animal-wrapper .eye-wrapper .eye .pupil, .switch-wrapper .knot,
+    .switch-wrapper .tassel {
+        border-radius: 50%;
+        transform-origin: 50%;
+    }
+
+    .center, .animal-wrapper .eye-wrapper {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .swing {
+        animation: swing 1s 1;
+    }
+
+    .animal-wrapper {
+        position: absolute;
+        bottom: -710px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .animal-wrapper .eye-wrapper {
+        top: 195px;
+        display: flex;
+        justify-content: space-between;
+        width: 280px;
+    }
+    .animal-wrapper .eye-wrapper .eye-inner-wrapper {
+        animation: blink 4s infinite;
+    }
+    .animal-wrapper .eye-wrapper .eye {
+        position: relative;
+        background: #fff;
+        border: 4px solid #000;
+        width: 85px;
+        height: 85px;
+    }
+    .animal-wrapper .eye-wrapper .eye .pupil {
+        background: #000;
+        width: 70px;
+        height: 70px;
+        position: absolute;
+        bottom: 16px;
+        right: 13px;
+    }
+
+    .switch-wrapper {
+        position: fixed;
+        z-index: 1029;
+        top: 0;
+        left: 95%;
+        transition: all 0.2s;
+    }
+    .switch-wrapper .string {
+        background: rgb(168, 189, 51);
+        width: 2px;
+        height: 80px;
+    }
+    .switch-wrapper .knot,
+    .switch-wrapper .tassel {
+        cursor: pointer;
+        background: #daa520;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .switch-wrapper .knot {
+        width: 14px;
+        height: 11px;
+        bottom: 4px;
+    }
+    .switch-wrapper .tassel {
+        width: 52px;
+        height: 35px;
+        bottom: -30px;
+        -webkit-clip-path: polygon(38% 0, 62% 0, 80% 100%, 20% 100%);
+        clip-path: polygon(38% 0, 62% 0, 80% 100%, 20% 100%);
+    }
+    .switch-wrapper .gap {
+        background: #030f23;
+        width: 15px;
+        height: 15px;
+        bottom: -29px;
+        -webkit-clip-path: polygon(49% 0, 29% 100%, 56% 100%);
+        clip-path: polygon(49% 0, 29% 100%, 56% 100%);
+        position: absolute;
+        left: -12px;
+    }
+
+    @keyframes blink {
+        0%, 100% {
+            transform: scaleY(0.01);
+        }
+        5%, 95% {
+            transform: scaleY(1);
+        }
+    }
+    @keyframes swing {
+        0%, 100% {
+            transform: rotate(0deg) translate(0);
+        }
+        25% {
+            transform: rotate(-2deg) translateX(10px);
+        }
+        50% {
+            transform: rotate(2deg) translateX(-10px);
+        }
+    }
+</style>
