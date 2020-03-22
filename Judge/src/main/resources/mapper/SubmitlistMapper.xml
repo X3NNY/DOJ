@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pers.dreamer.oj.judge.dao.SubmitlistMapper">
+  <resultMap id="BaseResultMap" type="pers.dreamer.oj.judge.pojo.Submitlist">
+    <id column="sid" jdbcType="INTEGER" property="sid" />
+    <result column="date" jdbcType="TIMESTAMP" property="date" />
+    <result column="pid" jdbcType="INTEGER" property="pid" />
+    <result column="cid" jdbcType="INTEGER" property="cid" />
+    <result column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="lang" jdbcType="VARCHAR" property="lang" />
+    <result column="result" jdbcType="INTEGER" property="result" />
+    <result column="time_used" jdbcType="INTEGER" property="timeUsed" />
+    <result column="memory_used" jdbcType="INTEGER" property="memoryUsed" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="score" jdbcType="DOUBLE" property="score" />
+    <result column="pos" jdbcType="INTEGER" property="pos" />
+    <result column="msg" jdbcType="VARCHAR" property="msg" />
+    <result column="size" jdbcType="INTEGER" property="size" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    sid, date, pid, cid, uid, lang, result, time_used, memory_used, state, score, pos, 
+    msg, size
+  </sql>
+  <select id="selectByExample" parameterType="pers.dreamer.oj.judge.pojo.SubmitlistExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from submitlist
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from submitlist
+    where sid = #{sid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from submitlist
+    where sid = #{sid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="pers.dreamer.oj.judge.pojo.SubmitlistExample">
+    delete from submitlist
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="pers.dreamer.oj.judge.pojo.Submitlist">
+    insert into submitlist (sid, date, pid, 
+      cid, uid, lang, result, 
+      time_used, memory_used, state, 
+      score, pos, msg, size
+      )
+    values (#{sid,jdbcType=INTEGER}, #{date,jdbcType=TIMESTAMP}, #{pid,jdbcType=INTEGER}, 
+      #{cid,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{lang,jdbcType=VARCHAR}, #{result,jdbcType=INTEGER}, 
+      #{timeUsed,jdbcType=INTEGER}, #{memoryUsed,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}, 
+      #{score,jdbcType=DOUBLE}, #{pos,jdbcType=INTEGER}, #{msg,jdbcType=VARCHAR}, #{size,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="pers.dreamer.oj.judge.pojo.Submitlist">
+    insert into submitlist
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="sid != null">
+        sid,
+      </if>
+      <if test="date != null">
+        date,
+      </if>
+      <if test="pid != null">
+        pid,
+      </if>
+      <if test="cid != null">
+        cid,
+      </if>
+      <if test="uid != null">
+        uid,
+      </if>
+      <if test="lang != null">
+        lang,
+      </if>
+      <if test="result != null">
+        result,
+      </if>
+      <if test="timeUsed != null">
+        time_used,
+      </if>
+      <if test="memoryUsed != null">
+        memory_used,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="score != null">
+        score,
+      </if>
+      <if test="pos != null">
+        pos,
+      </if>
+      <if test="msg != null">
+        msg,
+      </if>
+      <if test="size != null">
+        size,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="sid != null">
+        #{sid,jdbcType=INTEGER},
+      </if>
+      <if test="date != null">
+        #{date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pid != null">
+        #{pid,jdbcType=INTEGER},
+      </if>
+      <if test="cid != null">
+        #{cid,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null">
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="lang != null">
+        #{lang,jdbcType=VARCHAR},
+      </if>
+      <if test="result != null">
+        #{result,jdbcType=INTEGER},
+      </if>
+      <if test="timeUsed != null">
+        #{timeUsed,jdbcType=INTEGER},
+      </if>
+      <if test="memoryUsed != null">
+        #{memoryUsed,jdbcType=INTEGER},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="score != null">
+        #{score,jdbcType=DOUBLE},
+      </if>
+      <if test="pos != null">
+        #{pos,jdbcType=INTEGER},
+      </if>
+      <if test="msg != null">
+        #{msg,jdbcType=VARCHAR},
+      </if>
+      <if test="size != null">
+        #{size,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="pers.dreamer.oj.judge.pojo.SubmitlistExample" resultType="java.lang.Long">
+    select count(*) from submitlist
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update submitlist
+    <set>
+      <if test="record.sid != null">
+        sid = #{record.sid,jdbcType=INTEGER},
+      </if>
+      <if test="record.date != null">
+        date = #{record.date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.pid != null">
+        pid = #{record.pid,jdbcType=INTEGER},
+      </if>
+      <if test="record.cid != null">
+        cid = #{record.cid,jdbcType=INTEGER},
+      </if>
+      <if test="record.uid != null">
+        uid = #{record.uid,jdbcType=INTEGER},
+      </if>
+      <if test="record.lang != null">
+        lang = #{record.lang,jdbcType=VARCHAR},
+      </if>
+      <if test="record.result != null">
+        result = #{record.result,jdbcType=INTEGER},
+      </if>
+      <if test="record.timeUsed != null">
+        time_used = #{record.timeUsed,jdbcType=INTEGER},
+      </if>
+      <if test="record.memoryUsed != null">
+        memory_used = #{record.memoryUsed,jdbcType=INTEGER},
+      </if>
+      <if test="record.state != null">
+        state = #{record.state,jdbcType=INTEGER},
+      </if>
+      <if test="record.score != null">
+        score = #{record.score,jdbcType=DOUBLE},
+      </if>
+      <if test="record.pos != null">
+        pos = #{record.pos,jdbcType=INTEGER},
+      </if>
+      <if test="record.msg != null">
+        msg = #{record.msg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.size != null">
+        size = #{record.size,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update submitlist
+    set sid = #{record.sid,jdbcType=INTEGER},
+      date = #{record.date,jdbcType=TIMESTAMP},
+      pid = #{record.pid,jdbcType=INTEGER},
+      cid = #{record.cid,jdbcType=INTEGER},
+      uid = #{record.uid,jdbcType=INTEGER},
+      lang = #{record.lang,jdbcType=VARCHAR},
+      result = #{record.result,jdbcType=INTEGER},
+      time_used = #{record.timeUsed,jdbcType=INTEGER},
+      memory_used = #{record.memoryUsed,jdbcType=INTEGER},
+      state = #{record.state,jdbcType=INTEGER},
+      score = #{record.score,jdbcType=DOUBLE},
+      pos = #{record.pos,jdbcType=INTEGER},
+      msg = #{record.msg,jdbcType=VARCHAR},
+      size = #{record.size,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="pers.dreamer.oj.judge.pojo.Submitlist">
+    update submitlist
+    <set>
+      <if test="date != null">
+        date = #{date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pid != null">
+        pid = #{pid,jdbcType=INTEGER},
+      </if>
+      <if test="cid != null">
+        cid = #{cid,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null">
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="lang != null">
+        lang = #{lang,jdbcType=VARCHAR},
+      </if>
+      <if test="result != null">
+        result = #{result,jdbcType=INTEGER},
+      </if>
+      <if test="timeUsed != null">
+        time_used = #{timeUsed,jdbcType=INTEGER},
+      </if>
+      <if test="memoryUsed != null">
+        memory_used = #{memoryUsed,jdbcType=INTEGER},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="score != null">
+        score = #{score,jdbcType=DOUBLE},
+      </if>
+      <if test="pos != null">
+        pos = #{pos,jdbcType=INTEGER},
+      </if>
+      <if test="msg != null">
+        msg = #{msg,jdbcType=VARCHAR},
+      </if>
+      <if test="size != null">
+        size = #{size,jdbcType=INTEGER},
+      </if>
+    </set>
+    where sid = #{sid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pers.dreamer.oj.judge.pojo.Submitlist">
+    update submitlist
+    set date = #{date,jdbcType=TIMESTAMP},
+      pid = #{pid,jdbcType=INTEGER},
+      cid = #{cid,jdbcType=INTEGER},
+      uid = #{uid,jdbcType=INTEGER},
+      lang = #{lang,jdbcType=VARCHAR},
+      result = #{result,jdbcType=INTEGER},
+      time_used = #{timeUsed,jdbcType=INTEGER},
+      memory_used = #{memoryUsed,jdbcType=INTEGER},
+      state = #{state,jdbcType=INTEGER},
+      score = #{score,jdbcType=DOUBLE},
+      pos = #{pos,jdbcType=INTEGER},
+      msg = #{msg,jdbcType=VARCHAR},
+      size = #{size,jdbcType=INTEGER}
+    where sid = #{sid,jdbcType=INTEGER}
+  </update>
+</mapper>

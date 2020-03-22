@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="pers.dreamer.oj.judge.dao.ProblemMapper">
+  <resultMap id="BaseResultMap" type="pers.dreamer.oj.judge.pojo.Problem">
+    <id column="pid" jdbcType="INTEGER" property="pid" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="input" jdbcType="VARCHAR" property="input" />
+    <result column="output" jdbcType="VARCHAR" property="output" />
+    <result column="sampleinput" jdbcType="VARCHAR" property="sampleinput" />
+    <result column="sampleoutput" jdbcType="VARCHAR" property="sampleoutput" />
+    <result column="timelimit" jdbcType="INTEGER" property="timelimit" />
+    <result column="memorylimit" jdbcType="INTEGER" property="memorylimit" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="special" jdbcType="INTEGER" property="special" />
+    <result column="hint" jdbcType="VARCHAR" property="hint" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    pid, title, description, input, output, sampleinput, sampleoutput, timelimit, memorylimit, 
+    type, uid, status, special, hint
+  </sql>
+  <select id="selectByExample" parameterType="pers.dreamer.oj.judge.pojo.ProblemExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from problem
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from problem
+    where pid = #{pid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from problem
+    where pid = #{pid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="pers.dreamer.oj.judge.pojo.ProblemExample">
+    delete from problem
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="pers.dreamer.oj.judge.pojo.Problem">
+    insert into problem (pid, title, description, 
+      input, output, sampleinput, 
+      sampleoutput, timelimit, memorylimit, 
+      type, uid, status, 
+      special, hint)
+    values (#{pid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{input,jdbcType=VARCHAR}, #{output,jdbcType=VARCHAR}, #{sampleinput,jdbcType=VARCHAR}, 
+      #{sampleoutput,jdbcType=VARCHAR}, #{timelimit,jdbcType=INTEGER}, #{memorylimit,jdbcType=INTEGER}, 
+      #{type,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{special,jdbcType=INTEGER}, #{hint,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="pers.dreamer.oj.judge.pojo.Problem">
+    insert into problem
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pid != null">
+        pid,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="input != null">
+        input,
+      </if>
+      <if test="output != null">
+        output,
+      </if>
+      <if test="sampleinput != null">
+        sampleinput,
+      </if>
+      <if test="sampleoutput != null">
+        sampleoutput,
+      </if>
+      <if test="timelimit != null">
+        timelimit,
+      </if>
+      <if test="memorylimit != null">
+        memorylimit,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="uid != null">
+        uid,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="special != null">
+        special,
+      </if>
+      <if test="hint != null">
+        hint,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pid != null">
+        #{pid,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="input != null">
+        #{input,jdbcType=VARCHAR},
+      </if>
+      <if test="output != null">
+        #{output,jdbcType=VARCHAR},
+      </if>
+      <if test="sampleinput != null">
+        #{sampleinput,jdbcType=VARCHAR},
+      </if>
+      <if test="sampleoutput != null">
+        #{sampleoutput,jdbcType=VARCHAR},
+      </if>
+      <if test="timelimit != null">
+        #{timelimit,jdbcType=INTEGER},
+      </if>
+      <if test="memorylimit != null">
+        #{memorylimit,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null">
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="special != null">
+        #{special,jdbcType=INTEGER},
+      </if>
+      <if test="hint != null">
+        #{hint,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="pers.dreamer.oj.judge.pojo.ProblemExample" resultType="java.lang.Long">
+    select count(*) from problem
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update problem
+    <set>
+      <if test="record.pid != null">
+        pid = #{record.pid,jdbcType=INTEGER},
+      </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.description != null">
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.input != null">
+        input = #{record.input,jdbcType=VARCHAR},
+      </if>
+      <if test="record.output != null">
+        output = #{record.output,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sampleinput != null">
+        sampleinput = #{record.sampleinput,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sampleoutput != null">
+        sampleoutput = #{record.sampleoutput,jdbcType=VARCHAR},
+      </if>
+      <if test="record.timelimit != null">
+        timelimit = #{record.timelimit,jdbcType=INTEGER},
+      </if>
+      <if test="record.memorylimit != null">
+        memorylimit = #{record.memorylimit,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.uid != null">
+        uid = #{record.uid,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.special != null">
+        special = #{record.special,jdbcType=INTEGER},
+      </if>
+      <if test="record.hint != null">
+        hint = #{record.hint,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update problem
+    set pid = #{record.pid,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR},
+      input = #{record.input,jdbcType=VARCHAR},
+      output = #{record.output,jdbcType=VARCHAR},
+      sampleinput = #{record.sampleinput,jdbcType=VARCHAR},
+      sampleoutput = #{record.sampleoutput,jdbcType=VARCHAR},
+      timelimit = #{record.timelimit,jdbcType=INTEGER},
+      memorylimit = #{record.memorylimit,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=INTEGER},
+      uid = #{record.uid,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=INTEGER},
+      special = #{record.special,jdbcType=INTEGER},
+      hint = #{record.hint,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="pers.dreamer.oj.judge.pojo.Problem">
+    update problem
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="input != null">
+        input = #{input,jdbcType=VARCHAR},
+      </if>
+      <if test="output != null">
+        output = #{output,jdbcType=VARCHAR},
+      </if>
+      <if test="sampleinput != null">
+        sampleinput = #{sampleinput,jdbcType=VARCHAR},
+      </if>
+      <if test="sampleoutput != null">
+        sampleoutput = #{sampleoutput,jdbcType=VARCHAR},
+      </if>
+      <if test="timelimit != null">
+        timelimit = #{timelimit,jdbcType=INTEGER},
+      </if>
+      <if test="memorylimit != null">
+        memorylimit = #{memorylimit,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null">
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="special != null">
+        special = #{special,jdbcType=INTEGER},
+      </if>
+      <if test="hint != null">
+        hint = #{hint,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where pid = #{pid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pers.dreamer.oj.judge.pojo.Problem">
+    update problem
+    set title = #{title,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      input = #{input,jdbcType=VARCHAR},
+      output = #{output,jdbcType=VARCHAR},
+      sampleinput = #{sampleinput,jdbcType=VARCHAR},
+      sampleoutput = #{sampleoutput,jdbcType=VARCHAR},
+      timelimit = #{timelimit,jdbcType=INTEGER},
+      memorylimit = #{memorylimit,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      uid = #{uid,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      special = #{special,jdbcType=INTEGER},
+      hint = #{hint,jdbcType=VARCHAR}
+    where pid = #{pid,jdbcType=INTEGER}
+  </update>
+</mapper>
