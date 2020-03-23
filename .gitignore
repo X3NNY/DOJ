@@ -6,7 +6,3 @@
 **/target/
 **/test/
 **/*.war
-**/mail.properties
-**/redis.properties
-**/spring-rabbitmq.xml
-**/dbconfig.properties
