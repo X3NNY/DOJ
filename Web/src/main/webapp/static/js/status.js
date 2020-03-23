@@ -91,34 +91,37 @@ function toPage(_page) {
 }
 
 function getProRes(res,score,pos,sid) {
-    let flag;
-    if (score == null || score == undefined || score =='') {
-        flag = '';
-    } else {
-        flag = score;
-    }
+    let s;
     switch(res) {
         case 0:
-            return "<span class=\"label label-success\">Accepted</span>";
+            s = "<span class=\"label label-success\">Accepted</span>";break;
         case 1:
-            return "<span class=\"label label-info\">PE on test "+pos+"</span>";
+            s = "<span class=\"label label-info\">PE on test "+pos+"</span>";break;
         case 2:
-            return "<span class=\"label label-warning\">TLE on test "+pos+"</span>";
+            s = "<span class=\"label label-warning\">TLE on test "+pos+"</span>";break;
         case 3:
-            return "<span class=\"label label-warning\">MLE on test "+pos+"</span>";
+            s = "<span class=\"label label-warning\">MLE on test "+pos+"</span>";break;
         case 4:
-            return "<span class=\"label label-danger\">WA on test "+pos+"</span>";
+            s = "<span class=\"label label-danger\">WA on test "+pos+"</span>";break;
         case 5:
-            return "<span class=\"label label-warning\">RE on test "+pos+"</span>";
+            s = "<span class=\"label label-warning\">RE on test "+pos+"</span>";break;
         case 6:
-            return "<span class=\"label label-warning\">OLE on test "+pos+"</span>";
+            s = "<span class=\"label label-warning\">OLE on test "+pos+"</span>";break;
         case 7:
-            return "<span class=\"label label-default\">Waiting</span><img src='/media/img/status/wating1.gif' />";
+            s = "<span class=\"label label-default\">Waiting</span><img src='/media/img/status/wating1.gif' />";break;
         case 8:
-            return "<span class=\"label label-primary\">System Error</span>";
+            s = "<span class=\"label label-primary\">System Error</span>";break;
         case 9:
-            return "<span class=\"label label-info\"><a href=\"/statusInfo.jsp?sid="+sid+"\">Compilation Error</a>";
+            s = "<span class=\"label label-info\"><a href=\"/statusInfo.jsp?sid="+sid+"\">Compilation Error</a>";break;
     }
+    if (score != null && score !== -1 && res < 7) {
+        if (res === 0) {
+            return s + HTML.bS("color: green;", " "+score);
+        } else {
+            return s + HTML.bS("color: red;"," "+score);
+        }
+    }
+    return s;
 }
 
 function statusSearch() {
@@ -127,6 +130,7 @@ function statusSearch() {
     let _lang = $("#statusLangSelect  option:selected").val();
     let _res = $("#statusResultSelect  option:selected").val();
     _lang = _lang.indexOf("ALL") === -1?_lang:"";
+    page = 1;
     getPages(_username,_pid,_res,_lang);
     loadStatus(_username,_pid,_res,_lang,1);
 }
