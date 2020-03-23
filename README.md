@@ -5,6 +5,8 @@ Dreamer Online Judge，An open, free and shared OnlineJudge System。
 
 ---
 
-* 目前OJ处于测试阶段，请加入QQ群92220895参与测试，正式上线后会开源同步至本项目中。
+* 欢迎加入DOJ用户交流群92220895
+
+* 请查看Release下载对应版本，master中文件可能经常有改动。文档缓慢整理中 = =
 
 * 部署详细请查看本项目Wiki界面
