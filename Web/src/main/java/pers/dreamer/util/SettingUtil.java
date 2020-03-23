@@ -1,63 +1,71 @@
 package pers.dreamer.util;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.stereotype.Component;
+import java.io.*;
+import java.util.Properties;
 
-@Component
-@PropertySource("classpath:oj.properties")
 public class SettingUtil {
-    @Value("${OJ_NAME}")
     public static String OJ_NAME;
 
-    @Value("${OJ_FNAME}")
     public static String OJ_FNAME;
 
-    @Value("${RECORD_ID}")
     public static String RECORD_ID;
 
-    @Value("${ADMIN_EMAIL}")
     public static String ADMIN_EMAIL;
 
-    @Value("${ADMIN_NAME}")
     public static String ADMIN_NAME;
 
-    @Value("${UI_STYLE}")
     public static String UI_STYLE;
 
-    @Value("${OI_MODE}")
     public static Boolean OI_MODE;
 
-    @Value("${CE_PENALTY}")
     public static Boolean CE_PENALTY;
 
-    @Value("${LOGIN_CAPTCHA}")
     public static Boolean LOGIN_CAPTCHA;
 
-    @Value("${SUBMIT_CD}")
     public static Integer SUBMIT_CD;
 
-    @Value("${REFRESH_CD}")
     public static Integer REFRESH_CD;
 
-    @Value("${OPEN_MAIL}")
     public static Boolean OPEN_MAIL;
 
-    @Value("${OPEN_WIKI}")
     public static Boolean OPEN_WIKI;
 
-    @Value("${OPEN_HACK}")
     public static Boolean OPEN_HACK;
 
-    @Value("${OPEN_DIY}")
     public static Boolean OPEN_DIY;
 
-    @Value("${OPEN_DIYC}")
     public static Boolean OPEN_DIYC;
 
-    @Value("${AUTO_SHARED}")
     public static Boolean AUTO_SHARED;
 
-    @Value("${ADD_TAG}")
     public static Boolean ADD_TAG;
+
+    static {
+        Properties properties = new Properties();
+        FileInputStream in = null;
+        try {
+            in = new FileInputStream(SettingUtil.class.getClassLoader().getResource("./").getPath()+"oj.properties");
+            properties.load(in);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        OJ_NAME = properties.getProperty("OJ_NAME");
+        OJ_FNAME=properties.getProperty("OJ_FNAME");
+        RECORD_ID=properties.getProperty("RECORD_ID");
+        ADMIN_EMAIL=properties.getProperty("ADMIN_EMAIL");
+        ADMIN_NAME=properties.getProperty("ADMIN_NAME");
+        UI_STYLE=properties.getProperty("UI_STYLE");
+        OI_MODE=Boolean.valueOf(properties.getProperty("OI_MODE"));
+        CE_PENALTY=Boolean.valueOf(properties.getProperty("CE_PENALTY"));
+        LOGIN_CAPTCHA=Boolean.valueOf(properties.getProperty("LOGIN_CAPTCHA"));
+        SUBMIT_CD=Integer.valueOf(properties.getProperty("SUBMIT_CD"));
+        REFRESH_CD=Integer.valueOf(properties.getProperty("REFRESH_CD"));
+        OPEN_MAIL=Boolean.valueOf(properties.getProperty("OPEN_MAIL"));
+        OPEN_WIKI=Boolean.valueOf(properties.getProperty("OPEN_WIKI"));
+        OPEN_HACK=Boolean.valueOf(properties.getProperty("OPEN_HACK"));
+        OPEN_DIY=Boolean.valueOf(properties.getProperty("OPEN_DIY"));
+        OPEN_DIYC=Boolean.valueOf(properties.getProperty("OPEN_DIYC"));
+        AUTO_SHARED=Boolean.valueOf(properties.getProperty("AUTO_SHARED"));
+        ADD_TAG=Boolean.valueOf(properties.getProperty("ADD_TAG"));
+    }
 }
