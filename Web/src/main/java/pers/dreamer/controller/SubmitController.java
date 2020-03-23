@@ -14,6 +14,7 @@ import pers.dreamer.dto.CodeDto;
 import pers.dreamer.dto.ResultDto;
 import pers.dreamer.dto.StatusDto;
 import pers.dreamer.service.*;
+import pers.dreamer.util.SettingUtil;
 import pers.dreamer.util.UserUtil;
 import pers.dreamer.util.tools.MyUtil;
 
@@ -166,9 +167,11 @@ public class SubmitController {
             tmp.put("size", submitlist.getSize());
             tmp.put("viewable",submitlistService.isSubmitCanBeViewedByUid(isNowUserNull?null:nowUser.getUid(),submitlist.getPid()));
             tmp.put("date", dateFormat.format(submitlist.getDate()));
-            tmp.put("score", submitlist.getScore());
             tmp.put("pos",submitlist.getPos());
             tmp.put("state",isNowUserNull?0:(submitlist.getUid().equals(nowUser.getUid()) || nowUser.getRole()>=5));
+            if (SettingUtil.OI_MODE) {
+                tmp.put("score",submitlist.getScore());
+            }
             ret.add(tmp);
         }
         return ret;
