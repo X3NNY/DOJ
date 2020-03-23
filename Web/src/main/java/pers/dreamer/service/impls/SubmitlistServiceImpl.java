@@ -12,6 +12,7 @@ import pers.dreamer.dto.SubmitDto;
 import pers.dreamer.service.ContestService;
 import pers.dreamer.service.ProbleminfoService;
 import pers.dreamer.service.SubmitlistService;
+import pers.dreamer.util.SettingUtil;
 import pers.dreamer.util.idworker.Sid;
 import pers.dreamer.util.tools.MyUtil;
 
@@ -474,6 +475,9 @@ public class SubmitlistServiceImpl implements SubmitlistService {
     }
 
     private void updateMTSubmitInfo(Submitlist submitlist) {
+        if (submitlist.getResult() == 9 && !SettingUtil.CE_PENALTY) {
+            return;
+        }
         Integer id;
         if ((id = contestsubmitinfoMapper.isExistSubmitInfoByCidAndUidAndPid(submitlist.getCid(),submitlist.getUid(),submitlist.getPid())) == null) {
             Contestsubmitinfo contestsubmitinfo = new Contestsubmitinfo();
@@ -495,6 +499,9 @@ public class SubmitlistServiceImpl implements SubmitlistService {
     }
 
     private void updateSCSubmitInfo(Submitlist submitlist) {
+        if (submitlist.getResult() == 9 && !SettingUtil.CE_PENALTY) {
+            return;
+        }
         Integer id;
         if ((id = contestsubmitinfoMapper.isExistSubmitInfoByCidAndUidAndPid(submitlist.getCid(),submitlist.getUid(),submitlist.getPid())) == null) {
             Contestsubmitinfo contestsubmitinfo = new Contestsubmitinfo();
@@ -520,6 +527,9 @@ public class SubmitlistServiceImpl implements SubmitlistService {
     }
 
     private void updateOISubmitInfo(Submitlist submitlist) {
+        if (submitlist.getResult() == 9 && !SettingUtil.CE_PENALTY) {
+            return;
+        }
         Integer id;
         if ((id = contestsubmitinfoMapper.isExistSubmitInfoByCidAndUidAndPid(submitlist.getCid(),submitlist.getUid(),submitlist.getPid())) == null) {
             Contestsubmitinfo contestsubmitinfo = new Contestsubmitinfo();
@@ -537,7 +547,7 @@ public class SubmitlistServiceImpl implements SubmitlistService {
     }
 
     private void updateICPCSubmitInfo(Submitlist submitlist) {
-        if (submitlist.getResult() == 9) {
+        if (submitlist.getResult() == 9 && !SettingUtil.CE_PENALTY) {
             return;
         }
         Integer id;
