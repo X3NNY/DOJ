@@ -10,7 +10,7 @@
 		</commentGenerator>
 		<!-- 配置数据库连接 -->
 		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
-			connectionURL="jdbc:mysql://120.79.31.49:3306/onlinejudge" userId="root"
+			connectionURL="jdbc:mysql://localhost:3306/onlinejudge" userId="root"
 			password="root">
 		</jdbcConnection>
 
