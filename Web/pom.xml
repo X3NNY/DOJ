@@ -107,7 +107,7 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
-			<version>4.3.7.RELEASE</version>
+			<version>5.3.18</version>
 		</dependency>
 
 		<!--JSR303数据校验支持；tomcat7及以上的服务器， 
